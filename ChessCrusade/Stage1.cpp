@@ -181,8 +181,8 @@ void Stage1::Draw()
     }
 
     // Desenha a interface (HUD)
-    if (hud && pawn)
-        hud->Draw(pawn, "Est. 1-1: A Torre");
+    /*if (hud && pawn)
+        hud->Draw(pawn, "Est. 1-1: A Torre");*/
 
 }
 
