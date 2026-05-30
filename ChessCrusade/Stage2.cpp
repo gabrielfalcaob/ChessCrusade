@@ -15,6 +15,7 @@ void Stage2::Init()
     audio = new Audio();
     gAudio = audio;
 
+
     scene = new Scene();
     gScene = scene;
     hud = new HUD();
@@ -90,7 +91,7 @@ void Stage2::Finalize()
 {
     if (pawn) gPawnHearts = pawn->hearts;
     delete hud;
-    delete backg;
+    //delete backg;
     delete audio;
     delete scene;
     gScene = nullptr;

@@ -14,18 +14,7 @@
 
 void Stage1::Init()
 {
-    // Sistema de áudio
-    audio = new Audio();
-    gAudio = audio;
-    audio->Add(SND_SWORD_SWING,  "Resources/sword_swing.wav");
-    audio->Add(SND_SWORD_HIT,    "Resources/sword_hit.wav");
-    audio->Add(SND_PLAYER_HURT,  "Resources/player_hurt.wav");
-    audio->Add(SND_PLAYER_JUMP,  "Resources/jump.wav");
-    audio->Add(SND_ENEMY_DEATH,  "Resources/enemy_death.wav");
-    audio->Add(SND_BOSS_HURT,    "Resources/boss_hurt.wav");
-    audio->Add(SND_BOSS_DEATH,   "Resources/boss_death.wav");
-    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
-    audio->Add(SND_STAGE_CLEAR,  "Resources/stage_clear.wav");
+    
 
     // Cena
     scene = new Scene();
@@ -45,6 +34,19 @@ void Stage1::Init()
 
     // Constrói o nível
     BuildLevel();
+
+    // Sistema de áudio
+    audio = new Audio();
+    gAudio = audio;
+    audio->Add(SND_SWORD_SWING, "Resources/sword_swing.wav");
+    audio->Add(SND_SWORD_HIT, "Resources/sword_hit.wav");
+    audio->Add(SND_PLAYER_HURT, "Resources/player_hurt.wav");
+    audio->Add(SND_PLAYER_JUMP, "Resources/jump.wav");
+    audio->Add(SND_ENEMY_DEATH, "Resources/enemy_death.wav");
+    audio->Add(SND_BOSS_HURT, "Resources/boss_hurt.wav");
+    audio->Add(SND_BOSS_DEATH, "Resources/boss_death.wav");
+    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
+    audio->Add(SND_STAGE_CLEAR, "Resources/stage_clear.wav");
 
     gCurrentStage = 1;
 }
@@ -98,7 +100,7 @@ void Stage1::BuildLevel()
     scene->Add(e2, MOVING);
     enemiesRemaining++;
 
-    // Boss Torre: No canto direito, apoiada no chão (nasce em Y=740 devido à altura maior dela)
+    //// Boss Torre: No canto direito, apoiada no chão (nasce em Y=740 devido à altura maior dela)
     boss = new TowerBoss(W - 150.0f, 740.0f);
     scene->Add(boss, MOVING);
 }
@@ -125,8 +127,11 @@ void Stage1::CheckWinCondition()
 
 void Stage1::Update()
 {
-    if (window->KeyPress(VK_ESCAPE))
+    if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
+        return;
+    }
+        
 
     // Ativa/Desativa as caixas de colisão
     if (window->KeyPress('B'))
@@ -164,6 +169,7 @@ void Stage1::Draw()
     if (backg)
         backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
 
+
     // scene->Draw() vai passar pelas plataformas e não vai desenhar nada (já que o sprite é nulo)
     scene->Draw();
 
@@ -177,6 +183,7 @@ void Stage1::Draw()
     // Desenha a interface (HUD)
     if (hud && pawn)
         hud->Draw(pawn, "Est. 1-1: A Torre");
+
 }
 
 // ---------------------------------------------------------------------------------
@@ -186,11 +193,11 @@ void Stage1::Finalize()
     // Persiste corações antes de trocar de fase
     if (pawn) gPawnHearts = pawn->hearts;
 
-    delete hud;
-    delete backg;
-    delete audio;
     delete scene;
-
     gScene = nullptr;
+
+    delete audio;
     gAudio = nullptr;
+
+    delete hud;
 }

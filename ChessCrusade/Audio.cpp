@@ -39,8 +39,13 @@ Audio::~Audio()
     for (const auto & [id, sound] : soundTable)
     {
         // destroi todas as vozes criadas para este som
-        for (uint k = 0; k < sound->tracks; ++k)
-            sound->voices[k]->DestroyVoice();
+        for (uint k = 0; k < sound->tracks; ++k) {
+            // PROTEÇÃO CONTRA CRASH: Verifica se a voz não é nula antes de destruir
+            if (sound->voices[k] != nullptr)
+            {
+                sound->voices[k]->DestroyVoice();
+            }
+        }
 
         // libera o som
         delete sound;
@@ -78,6 +83,9 @@ void Audio::Play(uint id, bool repeat)
     // recupera som da tabela
     Sound * selected = soundTable[id];
 
+    if (!selected || !selected->voices[selected->index])
+        return;
+
     // toca áudio em loop ou apenas uma vez
     if (repeat)
         selected->buffer.LoopCount = XAUDIO2_LOOP_INFINITE;
@@ -101,6 +109,8 @@ void Audio::Stop(uint id)
 {
     // recupera som da tabela
     Sound * selected = soundTable[id];
+
+    if (!selected) return;
 
     // encerra todas as trilhas desse som
     for (uint i = 0; i < selected->tracks; ++i)
