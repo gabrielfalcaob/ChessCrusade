@@ -21,6 +21,16 @@ void Stage3::Init()
     audio = new Audio();
     gAudio = audio;
 
+    audio->Add(SND_SWORD_SWING, "Resources/sword_swing.wav");
+    audio->Add(SND_SWORD_HIT, "Resources/sword_hit.wav");
+    audio->Add(SND_PLAYER_HURT, "Resources/player_hurt.wav");
+    audio->Add(SND_PLAYER_JUMP, "Resources/jump.wav");
+    audio->Add(SND_ENEMY_DEATH, "Resources/enemy_death.wav");
+    audio->Add(SND_BOSS_HURT, "Resources/boss_hurt.wav");
+    audio->Add(SND_BOSS_DEATH, "Resources/boss_death.wav");
+    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
+    audio->Add(SND_STAGE_CLEAR, "Resources/stage_clear.wav");
+
     scene = new Scene();
     gScene = scene;
     hud = new HUD();
@@ -68,7 +78,17 @@ void Stage3::CheckWinCondition()
 
 void Stage3::Update()
 {
-    if (window->KeyPress(VK_ESCAPE)) Engine::Next<Home>();
+    if (window->KeyPress(VK_ESCAPE)) {
+        Engine::Next<Home>();
+		return;
+    } 
+
+    if (window->KeyPress(VK_RETURN))
+    {
+        Engine::Next<Stage4>();
+        return;
+	}
+
     if (window->KeyPress('B')) gViewBBox = !gViewBBox;
 
     if (stageClear)
@@ -88,19 +108,25 @@ void Stage3::Update()
 void Stage3::Draw()
 {
     scene->Draw();
-    if (gViewBBox) scene->DrawBBox();
+
     if (hud && pawn) hud->Draw(pawn, "Est. 3-1: O Bispo");
+
+    if (gViewBBox) scene->DrawBBox();
 }
 
 void Stage3::Finalize()
 {
     if (pawn) gPawnHearts = pawn->hearts;
-    delete hud;
-    delete backg;
-    delete audio;
+
+    // 1º A CENA MORRE PRIMEIRO
     delete scene;
     gScene = nullptr;
+
+    // 2º O ÁUDIO MORRE DEPOIS
+    delete audio;
     gAudio = nullptr;
+
+    delete hud;
 }
 
 // =============================================================================
@@ -111,6 +137,16 @@ void Stage4::Init()
 {
     audio = new Audio();
     gAudio = audio;
+
+    audio->Add(SND_SWORD_SWING, "Resources/sword_swing.wav");
+    audio->Add(SND_SWORD_HIT, "Resources/sword_hit.wav");
+    audio->Add(SND_PLAYER_HURT, "Resources/player_hurt.wav");
+    audio->Add(SND_PLAYER_JUMP, "Resources/jump.wav");
+    audio->Add(SND_ENEMY_DEATH, "Resources/enemy_death.wav");
+    audio->Add(SND_BOSS_HURT, "Resources/boss_hurt.wav");
+    audio->Add(SND_BOSS_DEATH, "Resources/boss_death.wav");
+    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
+    audio->Add(SND_STAGE_CLEAR, "Resources/stage_clear.wav");
 
     scene = new Scene();
     gScene = scene;
@@ -157,7 +193,17 @@ void Stage4::CheckWinCondition()
 
 void Stage4::Update()
 {
-    if (window->KeyPress(VK_ESCAPE)) Engine::Next<Home>();
+    if (window->KeyPress(VK_ESCAPE)) {
+        Engine::Next<Home>();
+        return;
+    }
+
+    if (window->KeyPress(VK_RETURN))
+    {
+        Engine::Next<Stage5>();
+        return;
+    }
+
     if (window->KeyPress('B')) gViewBBox = !gViewBBox;
 
     if (stageClear)
@@ -177,19 +223,26 @@ void Stage4::Update()
 void Stage4::Draw()
 {
     scene->Draw();
-    if (gViewBBox) scene->DrawBBox();
+
     if (hud && pawn) hud->Draw(pawn, "Est. 4-1: A Rainha");
+
+    if (gViewBBox) scene->DrawBBox();
+    
 }
 
 void Stage4::Finalize()
 {
     if (pawn) gPawnHearts = pawn->hearts;
-    delete hud;
-    delete backg;
-    delete audio;
+
+    // 1º A CENA MORRE PRIMEIRO
     delete scene;
     gScene = nullptr;
+
+    // 2º O ÁUDIO MORRE DEPOIS
+    delete audio;
     gAudio = nullptr;
+
+    delete hud;
 }
 
 // =============================================================================
@@ -200,6 +253,16 @@ void Stage5::Init()
 {
     audio = new Audio();
     gAudio = audio;
+
+    audio->Add(SND_SWORD_SWING, "Resources/sword_swing.wav");
+    audio->Add(SND_SWORD_HIT, "Resources/sword_hit.wav");
+    audio->Add(SND_PLAYER_HURT, "Resources/player_hurt.wav");
+    audio->Add(SND_PLAYER_JUMP, "Resources/jump.wav");
+    audio->Add(SND_ENEMY_DEATH, "Resources/enemy_death.wav");
+    audio->Add(SND_BOSS_HURT, "Resources/boss_hurt.wav");
+    audio->Add(SND_BOSS_DEATH, "Resources/boss_death.wav");
+    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
+    audio->Add(SND_STAGE_CLEAR, "Resources/stage_clear.wav");
 
     scene = new Scene();
     gScene = scene;
@@ -250,7 +313,17 @@ void Stage5::CheckWinCondition()
 
 void Stage5::Update()
 {
-    if (window->KeyPress(VK_ESCAPE)) Engine::Next<Home>();
+    if (window->KeyPress(VK_ESCAPE)) {
+        Engine::Next<Home>();
+        return;
+    }
+
+    if (window->KeyPress(VK_RETURN))
+    {
+        Engine::Next<GameOver>();
+        return;
+    }
+
     if (window->KeyPress('B')) gViewBBox = !gViewBBox;
 
     if (stageClear)
@@ -270,17 +343,24 @@ void Stage5::Update()
 void Stage5::Draw()
 {
     scene->Draw();
-    if (gViewBBox) scene->DrawBBox();
+
     if (hud && pawn) hud->Draw(pawn, "Est. 5-1: O Rei");
+
+    if (gViewBBox) scene->DrawBBox();
+    
 }
 
 void Stage5::Finalize()
 {
     if (pawn) gPawnHearts = pawn->hearts;
-    delete hud;
-    delete backg;
-    delete audio;
+
+    // 1º A CENA MORRE PRIMEIRO
     delete scene;
     gScene = nullptr;
+
+    // 2º O ÁUDIO MORRE DEPOIS
+    delete audio;
     gAudio = nullptr;
+
+    delete hud;
 }

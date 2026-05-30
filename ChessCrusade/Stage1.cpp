@@ -100,7 +100,7 @@ void Stage1::BuildLevel()
     scene->Add(e2, MOVING);
     enemiesRemaining++;
 
-    //// Boss Torre: No canto direito, apoiada no chão (nasce em Y=740 devido à altura maior dela)
+    // Boss Torre: No canto direito, apoiada no chão (nasce em Y=740 devido à altura maior dela)
     boss = new TowerBoss(W - 150.0f, 740.0f);
     scene->Add(boss, MOVING);
 }
@@ -131,6 +131,13 @@ void Stage1::Update()
         Engine::Next<Home>();
         return;
     }
+
+    // ir para a proxima cena
+    if (window->KeyPress(VK_RETURN))
+    {
+        Engine::Next<Stage2>();
+        return;
+	}
         
 
     // Ativa/Desativa as caixas de colisão
@@ -173,16 +180,16 @@ void Stage1::Draw()
     // scene->Draw() vai passar pelas plataformas e não vai desenhar nada (já que o sprite é nulo)
     scene->Draw();
 
+    // Desenha a interface (HUD)
+    if (hud && pawn)
+        hud->Draw(pawn, "Est. 1-1: A Torre");
+
     // ====== DESENHO PURE DE BBOX ======
     // Se você apertar B, a engine varre todos os objetos e desenha a linha de colisão deles!
     if (gViewBBox)
     {
         scene->DrawBBox();
     }
-
-    // Desenha a interface (HUD)
-    /*if (hud && pawn)
-        hud->Draw(pawn, "Est. 1-1: A Torre");*/
 
 }
 
