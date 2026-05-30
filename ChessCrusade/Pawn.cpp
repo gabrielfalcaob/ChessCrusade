@@ -227,13 +227,30 @@ void Pawn::Update()
 
 void Pawn::Draw()
 {
-    // Sem sprite: nÃ£o desenha nada aqui.
-    // DrawAll() no Stage faz o Ãºnico BeginPixels/EndPixels do frame.
     if (anim)
     {
         bool visible = !(iFrameTimer > 0.0f && (int)(iFrameTimer * 10.0f) % 2 == 1);
         if (visible) anim->Draw(x, y, z, facingRight ? 1.0f : -1.0f, 0.0f);
+        return;
     }
+
+    // ---- PLACEHOLDER (enquanto não há sprite) ----
+    bool blinkVisible = !(iFrameTimer > 0.0f && (int)(iFrameTimer * 10.0f) % 2 == 1);
+    if (!blinkVisible) return;
+
+    DWORD color = 0xFF8B4513;               // marrom
+    if (state == PAWN_HURT)   color = 0xFFFF4444;
+    if (state == PAWN_DEAD)   color = 0xFF444444;
+    if (state == PAWN_ATTACK) color = 0xFFFFD700;
+
+    Rect body(-halfW, -halfH, halfW, halfH);
+    body.MoveTo(x, y);
+    Engine::renderer->Draw(&body, color);
+
+    // Triângulo de direção
+    float ax = facingRight ? x + halfW - 6.0f : x - halfW + 6.0f;
+    Rect arrow(ax - 5.0f, y - 5.0f, ax + 5.0f, y + 5.0f);
+    Engine::renderer->Draw(&arrow, 0xFFFFFFFF);
 }
 
 // ---------------------------------------------------------------------------------

@@ -62,11 +62,9 @@ void HeartDrop::Draw()
         if (frame % 2 == 0) return;
     }
 
-    Engine::renderer->BeginPixels();
     Circle c(12.0f);
     c.MoveTo(x, y);
     Engine::renderer->Draw(&c, 0xFFFF2266);
-    Engine::renderer->EndPixels();
 }
 
 // ---------------------------------------------------------------------------------

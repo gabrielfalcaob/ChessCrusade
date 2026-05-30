@@ -151,12 +151,10 @@ void Enemy::Draw()
         case ENEMY_PAWN_KING:   color = 0xFF442244; break;  // roxo escuro
         }
 
-        Engine::renderer->BeginPixels();
-        Rect body(-halfW, -halfH, halfW, halfH);
+            Rect body(-halfW, -halfH, halfW, halfH);
         body.MoveTo(x, y);
         Engine::renderer->Draw(&body, color);
-        Engine::renderer->EndPixels();
-    }
+        }
 }
 
 // ---------------------------------------------------------------------------------

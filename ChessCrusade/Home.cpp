@@ -28,8 +28,8 @@ void Home::Init()
 
 void Home::Finalize()
 {
-    delete backg;
-    delete font;
+    /*delete backg;
+    delete font;*/
 }
 
 // ---------------------------------------------------------------------------------
@@ -40,8 +40,11 @@ void Home::Update()
         window->Close();
 
     // Qualquer tecla inicia o jogo
-    if (window->KeyPress(VK_RETURN) || window->KeyPress(VK_SPACE))
+    if (window->KeyPress(VK_RETURN) || window->KeyPress(VK_SPACE)) {
         Engine::Next<Stage1>();
+        return;
+    }
+        
 
     // Selecionar modo de controle
     if (window->KeyPress('1')) gControlMode = CTRL_KEYBOARD_MOUSE;

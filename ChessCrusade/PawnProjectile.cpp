@@ -37,11 +37,9 @@ void PawnProjectile::Update()
 
 void PawnProjectile::Draw()
 {
-    Engine::renderer->BeginPixels();
     Circle c(8.0f);
     c.MoveTo(x, y);
     Engine::renderer->Draw(&c, 0xFFFFDD00);   // amarelo dourado
-    Engine::renderer->EndPixels();
 }
 
 // ---------------------------------------------------------------------------------

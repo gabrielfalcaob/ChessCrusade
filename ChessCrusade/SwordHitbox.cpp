@@ -35,11 +35,9 @@ void SwordHitbox::Update()
 void SwordHitbox::Draw()
 {
     // Desenha a hitbox da espada em amarelo semi-transparente (sempre visível no modo debug)
-    Engine::renderer->BeginPixels();
     Rect r(-25.0f, -20.0f, 25.0f, 20.0f);
     r.MoveTo(x, y);
     Engine::renderer->Draw(&r, 0xFFFFFF00);  // amarelo
-    Engine::renderer->EndPixels();
 }
 
 // ---------------------------------------------------------------------------------

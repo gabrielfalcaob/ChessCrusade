@@ -42,11 +42,9 @@ void BossProjectile::Update()
 
 void BossProjectile::Draw()
 {
-    Engine::renderer->BeginPixels();
     Circle c(10.0f);
     c.MoveTo(x, y);
     Engine::renderer->Draw(&c, 0xFFFF4400);   // laranja
-    Engine::renderer->EndPixels();
 }
 
 // ---------------------------------------------------------------------------------

@@ -14,18 +14,7 @@
 
 void Stage1::Init()
 {
-    // Sistema de áudio
-    audio = new Audio();
-    gAudio = audio;
-    audio->Add(SND_SWORD_SWING,  "Resources/sword_swing.wav");
-    audio->Add(SND_SWORD_HIT,    "Resources/sword_hit.wav");
-    audio->Add(SND_PLAYER_HURT,  "Resources/player_hurt.wav");
-    audio->Add(SND_PLAYER_JUMP,  "Resources/jump.wav");
-    audio->Add(SND_ENEMY_DEATH,  "Resources/enemy_death.wav");
-    audio->Add(SND_BOSS_HURT,    "Resources/boss_hurt.wav");
-    audio->Add(SND_BOSS_DEATH,   "Resources/boss_death.wav");
-    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
-    audio->Add(SND_STAGE_CLEAR,  "Resources/stage_clear.wav");
+    
 
     // Cena
     scene = new Scene();
@@ -45,6 +34,19 @@ void Stage1::Init()
 
     // Constrói o nível
     BuildLevel();
+
+    // Sistema de áudio
+    audio = new Audio();
+    gAudio = audio;
+    audio->Add(SND_SWORD_SWING, "Resources/sword_swing.wav");
+    audio->Add(SND_SWORD_HIT, "Resources/sword_hit.wav");
+    audio->Add(SND_PLAYER_HURT, "Resources/player_hurt.wav");
+    audio->Add(SND_PLAYER_JUMP, "Resources/jump.wav");
+    audio->Add(SND_ENEMY_DEATH, "Resources/enemy_death.wav");
+    audio->Add(SND_BOSS_HURT, "Resources/boss_hurt.wav");
+    audio->Add(SND_BOSS_DEATH, "Resources/boss_death.wav");
+    audio->Add(SND_HEART_PICKUP, "Resources/heart_pickup.wav");
+    audio->Add(SND_STAGE_CLEAR, "Resources/stage_clear.wav");
 
     gCurrentStage = 1;
 }
@@ -125,8 +127,18 @@ void Stage1::CheckWinCondition()
 
 void Stage1::Update()
 {
-    if (window->KeyPress(VK_ESCAPE))
+    if (window->KeyPress(VK_ESCAPE)) {
         Engine::Next<Home>();
+        return;
+    }
+
+    // ir para a proxima cena
+    if (window->KeyPress(VK_RETURN))
+    {
+        Engine::Next<Stage2>();
+        return;
+	}
+        
 
     // Ativa/Desativa as caixas de colisão
     if (window->KeyPress('B'))
@@ -159,24 +171,19 @@ void Stage1::Update()
 
 void Stage1::Draw()
 {
-
-    // Se tiver um sprite de fundo real mais para a frente, ele entra aqui.
     if (backg)
         backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
 
-    // scene->Draw() vai passar pelas plataformas e não vai desenhar nada (já que o sprite é nulo)
     scene->Draw();
 
-    // ====== DESENHO PURE DE BBOX ======
-    // Se você apertar B, a engine varre todos os objetos e desenha a linha de colisão deles!
-    if (gViewBBox)
-    {
-        scene->DrawBBox();
-    }
+    // �nico bloco de pixels do frame: placeholders + bbox + HUD ret�ngulos
+    Engine::renderer->BeginPixels();
+    if (gViewBBox) scene->DrawBBoxOnly();
+    if (hud && pawn) hud->DrawOnly(pawn, boss);
+    Engine::renderer->EndPixels();
 
-    // Desenha a interface (HUD)
-    if (hud && pawn)
-        hud->Draw(pawn, "Est. 1-1: A Torre");
+    // Texto via Font (fora do BeginPixels)
+    if (hud) hud->DrawText("Est. 1-1: A Torre", boss);
 }
 
 // ---------------------------------------------------------------------------------
@@ -186,11 +193,11 @@ void Stage1::Finalize()
     // Persiste corações antes de trocar de fase
     if (pawn) gPawnHearts = pawn->hearts;
 
-    delete hud;
-    delete backg;
-    delete audio;
     delete scene;
-
     gScene = nullptr;
+
+    delete audio;
     gAudio = nullptr;
+
+    delete hud;
 }

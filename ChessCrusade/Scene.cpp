@@ -176,6 +176,19 @@ void Scene::DrawBBox()
 
 // ---------------------------------------------------------------------------------
 
+void Scene::DrawBBoxOnly()
+{
+    // Desenha bounding boxes SEM chamar BeginPixels/EndPixels.
+    // Use este método dentro de um bloco BeginPixels/EndPixels externo.
+    for (const auto& obj : statics)
+        if (obj->BBox()) Engine::renderer->Draw(obj->BBox(), 0xffff00ff);
+
+    for (const auto& obj : moving)
+        if (obj->BBox()) Engine::renderer->Draw(obj->BBox(), 0xff00ffff);
+}
+
+// ---------------------------------------------------------------------------------
+
 void Scene::Begin()
 {
     // aponta para o primeiro elemento de cada lista

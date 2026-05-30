@@ -85,6 +85,7 @@ public:
     void Update();                              // atualiza todos os objetos da cena
     void Draw();                                // desenha todos os objetos da cena
     void DrawBBox();                            // desenha a bounding box dos objetos na cena
+    void DrawBBoxOnly();                        // desenha bbox SEM BeginPixels/EndPixels (uso interno)
 
     bool Collision(Object * oa, Object * ob);   // verifica se há colisão entre dois objetos
     void CollisionDetection();                  // trata a colisão entre objetos da cena
